@@ -20,7 +20,7 @@ pipeline {
 			agent any
 			environment { JAVA_HOME = '/usr/lib/jvm/java-8-openjdk-amd64/' }
 			steps {
-				sh "mvn clean install"
+				sh "mvn clean install -f angular-maven-plugin/pom.xml"
 				junit '**/TEST-*Test.xml'
 			}
 		}
@@ -30,7 +30,7 @@ pipeline {
 			agent any
 			when { branch 'master' }
 			steps {
-				sh "cp ./angular-maven-plugin/target/angular-maven-plugin-1.0.0.jar /var/www/html/mavenrepository/com/guillaumetalbot/angular-maven-plugin/1.0.0/angular-maven-plugin-1.0.0.jar"
+				sh "cp -f ./angular-maven-plugin/target/angular-maven-plugin-1.0.0.jar /var/www/html/mavenrepository/com/guillaumetalbot/angular-maven-plugin/1.0.0/angular-maven-plugin-1.0.0.jar"
 			}
 		}
 	}
