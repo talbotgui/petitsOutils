@@ -30,7 +30,7 @@ pipeline {
 			agent any
 			when { branch 'master' }
 			steps {
-				sh "cp -f ./angular-maven-plugin/target/angular-maven-plugin-1.0.0.jar /var/www/html/mavenrepository/com/guillaumetalbot/angular-maven-plugin/1.0.0/angular-maven-plugin-1.0.0.jar"
+				sh "mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file -Dfile=./angular-maven-plugin/target/angular-maven-plugin-1.0.0.jar -DgroupId=com.guillaumetalbot -DartifactId=angular-maven-plugin -Dversion=1.0.0 -Dpackaging=jar -DlocalRepositoryPath=/var/www/html/mavenrepository"
 			}
 		}
 	}
