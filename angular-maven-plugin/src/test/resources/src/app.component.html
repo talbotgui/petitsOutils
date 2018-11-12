@@ -1,0 +1,38 @@
+<div class="container-fluid">
+
+	<div class="row">
+		<div class="col-9"></div>
+		<div class="col-2"></div>
+		<div class="col-1 drapeaux">
+			<a href="#" class="en" (click)="changerLaLangueDesLibelles('en');" matTooltip="{{ 'commun_tooltip_flagEn' | translate: lang }}">
+				<img src="./assets/images/flag_en.jpg" alt="flag_en" />
+			</a>
+			<a href="#" class="fr" (click)="changerLaLangueDesLibelles('fr');" matTooltip="{{ 'commun_tooltip_flagFr' | translate: lang }}">
+				<img src="./assets/images/flag_fr.jpg" alt="flag_fr" />
+			</a>
+		</div>
+	</div>
+
+	<!-- Menu -->
+	<cadre-menu></cadre-menu>
+
+	<!-- Cadre principal contenant la page pointée par la route -->
+	<router-outlet></router-outlet>
+
+	<div class="row installerPwa" *ngIf="installationPwaSemiAutomatiqueAutorisee">
+		<span>Cette application est disponible hors connexion (<a href="https://fr.wikipedia.org/wiki/Progressive_web_app"
+			 target="blank">application
+				PWA</a>).</span>
+		<button class="btn btn-outline-secondary" (click)="installerPwa()">Cliquer pour installer</button>
+	</div>
+	<div class="row installerPwa" *ngIf="!installationPwaSemiAutomatiqueAutorisee && installationPwaManuelleIosAutorisee">
+		<span>Cette application est disponible hors connexion (<a href="https://fr.wikipedia.org/wiki/Progressive_web_app"
+			 target="blank">application
+				PWA</a>). Cliquer sur le bouton 'Partager' du navigateur puis sur Ajouter à l'écran d'accueil.</span>
+	</div>
+	<div class="row installerPwa" *ngIf="installationPwaImpossible">
+		<span>Cette application est disponible hors connexion (<a href="https://fr.wikipedia.org/wiki/Progressive_web_app"
+			 target="blank">application
+				PWA</a>). Mais votre navigateur ne supporte pas cette fonctionnalité.</span>
+	</div>
+</div>

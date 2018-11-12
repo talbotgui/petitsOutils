@@ -1,0 +1,68 @@
+<!-- Liste des clients -->
+<h3 l10nTranslate>client_titre</h3>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 col-12" matSort>
+
+	<ng-container matColumnDef="nomClient">
+		<th mat-header-cell *matHeaderCellDef mat-sort-header l10nTranslate>client_entete_nom</th>
+		<td mat-cell *matCellDef="let element">{{element.nomClient}}</td>
+	</ng-container>
+	<ng-container matColumnDef="ville">
+		<th mat-header-cell *matHeaderCellDef l10nTranslate>client_entete_ville</th>
+		<td mat-cell *matCellDef="let element">{{element.ville}}</td>
+	</ng-container>
+	<ng-container matColumnDef="nbDossiers">
+		<th mat-header-cell *matHeaderCellDef l10nTranslate>client_entete_nbDossiers</th>
+		<td mat-cell *matCellDef="let element">{{element.nbDossiers}}</td>
+	</ng-container>
+	<ng-container matColumnDef="nbDemandes">
+		<th mat-header-cell *matHeaderCellDef l10nTranslate>client_entete_nbDemandes</th>
+		<td mat-cell *matCellDef="let element">{{element.nbDemandes}}</td>
+	</ng-container>
+	<ng-container matColumnDef="dateCreationDernierDossier">
+		<th mat-header-cell *matHeaderCellDef l10nTranslate>client_entete_dateCreationDernierDossier</th>
+		<td mat-cell *matCellDef="let element">{{element.dateCreationDernierDossier}}</td>
+	</ng-container>
+	<ng-container matColumnDef="actions">
+		<th mat-header-cell *matHeaderCellDef l10nTranslate>commun_entete_actions
+			<em class="actionDansUnEntete fa fa-plus" (click)="creer(); leForm.reset(clientSelectionne);" matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
+		</th>
+		<td mat-cell *matCellDef="let element">
+			<em class="fa fa-edit" (click)="selectionner(element);" matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
+			<em class="fa fa-remove" (click)="supprimer(element);" matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
+		</td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+	<tr mat-row *matRowDef="let ligne; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="dataSource.page.totalElements" [pageSize]="dataSource.page.size"
+ showFirstLastButtons></mat-paginator>
+
+<!-- Création ou édition du client -->
+<form novalidate #leForm="ngForm">
+	<div *ngIf="clientSelectionne">
+
+		<!-- Titre -->
+		<hr />
+		<h3 l10nTranslate>client_formulaire_titre</h3>
+
+		<!-- Messages de validation de surface -->
+		<div *ngIf="!inputNom.pristine && inputNom.errors?.required" class="alert-danger" l10nTranslate>client_placeholder_nom_validation</div>
+
+		<!-- Champs -->
+		<mat-form-field l10nTranslate>
+			<input matInput required #inputNom="ngModel" [(ngModel)]="clientSelectionne.nomClient" name="nom" l10n-placeholder
+			 placeholder="client_placeholder_nom">
+		</mat-form-field>
+		<mat-form-field l10nTranslate>
+			<input matInput type="text" #inputVille="ngModel" [(ngModel)]="clientSelectionne.ville" name="ville"
+			 l10n-placeholder placeholder="client_placeholder_ville">
+		</mat-form-field>
+
+		<!-- Boutons -->
+		<button type="submit" class="btn btn-outline-secondary" (click)="annulerCreation()" l10nTranslate>client_bouton_annuler</button>
+		<button type="submit" class="btn btn-outline-secondary" [disabled]="!leForm.form.valid" (click)="sauvegarder()"
+		 l10nTranslate>client_bouton_creer</button>
+	</div>
+</form>

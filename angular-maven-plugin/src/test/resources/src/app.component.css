@@ -1,0 +1,6 @@
+.drapeaux { padding: 0px; }
+.drapeaux img { max-height: 30px; }
+
+.installerPwa { background-color: darkkhaki; position: fixed; bottom: 0px; left: 20px; right: 20px; color: white; text-align: center; }
+.installerPwa span { width: 100%; }
+.installerPwa button { margin: 0 auto; }

@@ -1,0 +1,62 @@
+<!-- Liste des utilisateurs -->
+<h3 l10nTranslate>utilisateur_titre</h3>
+
+<!-- Style décrit ici : https://getbootstrap.com/docs/4.0/content/tables/ -->
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th scope="col" l10nTranslate>utilisateur_entete_identifiant</th>
+			<th scope="col" l10nTranslate>utilisateur_entete_roles</th>
+			<th scope="col">
+				<span l10nTranslate>commun_entete_actions</span>
+				<em class="actionDansUnEntete fa fa-plus" (click)="creerUtilisateur(); utilisateurForm.reset(utilisateurSelectionne);"
+				 matTooltip="{{ 'commun_tooltip_ajouter' | translate: lang }}"></em>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let utilisateur of utilisateurs" [class.ligneSelectionne]="utilisateur === utilisateurSelectionne">
+			<th scope="row">{{utilisateur.login}}</th>
+			<td>
+				<span *ngFor="let role of utilisateur.roles">{{role.nom}}</span>
+			</td>
+			<td>
+				<em class="fa fa-edit" (click)="selectionnerUtilisateur(utilisateur)" matTooltip="{{ 'commun_tooltip_editer' | translate: lang }}"></em>
+				<em class="fa fa-remove" (click)="supprimerUtilisateur(utilisateur)" matTooltip="{{ 'commun_tooltip_supprimer' | translate: lang }}"></em>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- Création ou édition d'utilisateur -->
+<form novalidate #utilisateurForm="ngForm">
+	<div *ngIf="utilisateurSelectionne">
+
+		<!-- Titre -->
+		<hr />
+		<h3 l10nTranslate>utilisateur_formulaire_titre</h3>
+
+		<!-- Messages de validation de surface -->
+		<!-- Pour faire du l10nTranslate avec un paramètre, mettre le l10nTranslate entre crochets et ajouter la valeur du paramètre en value ainsi "['Le nom de l\'utilisateur']" (la clef reste dans le corp de la balise). -->
+		<div *ngIf="inputLogin && !inputLogin.pristine && inputLogin.errors?.required" class="alert-danger" l10nTranslate>utilisateur_placeholder_login_validation</div>
+		<div *ngIf="inputLogin && !inputLogin.pristine && inputLogin.errors?.minlength" class="alert-danger" l10nTranslate>utilisateur_placeholder_login_validation2</div>
+		<div *ngIf="!inputMdp.pristine && inputMdp.errors?.required" class="alert-danger" l10nTranslate>utilisateur_placeholder_mdp_validation</div>
+		<div *ngIf="!inputMdp.pristine && inputMdp.errors?.minlength" class="alert-danger" l10nTranslate>utilisateur_placeholder_mdp_validation2</div>
+
+		<!-- Champs -->
+		<mat-form-field l10nTranslate>
+			<input matInput required minlength="6" #inputLogin="ngModel" [(ngModel)]="utilisateurSelectionne.login" name="login"
+			 l10n-placeholder placeholder="utilisateur_placeholder_login" disabled="{{!creation}}">
+		</mat-form-field>
+		<mat-form-field l10nTranslate>
+			<input matInput required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp"
+			 name="mdp" l10n-placeholder placeholder="utilisateur_placeholder_mdp">
+		</mat-form-field>
+
+		<!-- Boutons -->
+		<button matButton type="submit" class="btn btn-outline-secondary" (click)="annulerCreationUtilisateur()"
+		 l10nTranslate>utilisateur_bouton_annuler</button>
+		<button matButton type="submit" class="btn btn-outline-secondary" [disabled]="!utilisateurForm.form.valid" (click)="sauvegarderUtilisateur()"
+		 l10nTranslate>utilisateur_bouton_creer</button>
+	</div>
+</form>
