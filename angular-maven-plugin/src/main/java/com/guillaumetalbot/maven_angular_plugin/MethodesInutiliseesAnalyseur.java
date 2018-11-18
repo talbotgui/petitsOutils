@@ -18,7 +18,7 @@ public class MethodesInutiliseesAnalyseur implements Analyseur {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodesInutiliseesAnalyseur.class);
 
 	// Méthodes propres à Angular à ignorer
-	private static final List<String> METHODES_ANGULAR_A_IGNORER = Arrays.asList("constructor", "ngOnInit", "ngAfterViewInit");
+	private static final List<String> METHODES_ANGULAR_A_IGNORER = Arrays.asList("constructor", "ngOnInit", "ngAfterViewInit", "ngOnChanges");
 
 	// Pattern de détection des méthodes
 	private static final Pattern PATTERN_METHODE_DANS_HTML = Pattern.compile("\\(click\\)=\"([a-zA-Z0-9]*)\\(");
