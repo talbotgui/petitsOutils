@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 
 public class MethodesInutiliseesAnalyseur implements Analyseur {
 
+	private static final String CLEF_POUR_IGNORER_LA_LIGNE_SUIVANTE = "@@angular:analyse:ignorerLigneSuivante@@";
+
 	private static final Logger LOG = LoggerFactory.getLogger(MethodesInutiliseesAnalyseur.class);
 
 	// Méthodes propres à Angular à ignorer
@@ -73,11 +75,16 @@ public class MethodesInutiliseesAnalyseur implements Analyseur {
 			throw new RuntimeException("Impossible de lire le fichier " + fichierAanalyser.getAbsolutePath(), e);
 		}
 
-		// Parcours du fichier
-		// Pour chaque ligne
+		// Parcours du fichier (sauf les lignes à ignorer)
 		final List<String> methodesAppellees = new ArrayList<>();
+		boolean ligneSuivanteAignorer = false;
 		for (final String ligne : lignesDeLaPage) {
-			this.extraireMethodesDuneLigne(ligne, patternDetection, patterRemplacement, methodesAppellees);
+			if (ligneSuivanteAignorer) {
+				ligneSuivanteAignorer = false;
+			} else {
+				this.extraireMethodesDuneLigne(ligne, patternDetection, patterRemplacement, methodesAppellees);
+				ligneSuivanteAignorer = this.ligneSuivanteAignorer(ligne);
+			}
 		}
 
 		// Renvoi
@@ -112,5 +119,15 @@ public class MethodesInutiliseesAnalyseur implements Analyseur {
 			}
 
 		} while (matcher.find() && patternRemplacement != null);
+	}
+
+	/**
+	 * Détection si la ligne courante demande à ignorer la ligne suivante
+	 * 
+	 * @param ligne
+	 * @return
+	 */
+	private boolean ligneSuivanteAignorer(final String ligne) {
+		return ligne.contains(CLEF_POUR_IGNORER_LA_LIGNE_SUIVANTE);
 	}
 }

@@ -88,4 +88,7 @@ export class PageUtilisateurComponent implements OnInit {
       .subscribe((retour) => { this.chargerDonnees(); });
   }
 
+  /** Méthode appelée par le composant parent par exemple (@@angular:analyse:ignorerLigneSuivante@@)*/
+  methodeIgnoree() {
+  }
 }
