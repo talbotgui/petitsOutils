@@ -30,7 +30,10 @@ pipeline {
 			agent any
 			when { branch 'master' }
 			steps {
-				sh "mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file -Dfile=./angular-maven-plugin/target/angular-maven-plugin-1.0.0.jar -DgroupId=com.guillaumetalbot -DartifactId=angular-maven-plugin -Dversion=1.0.0 -Dpackaging=jar -DlocalRepositoryPath=/var/www/html/mavenrepository"
+				script {
+					def pom = readMavenPom file: 'angular-maven-plugin/pom.xml'
+					sh "mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file -Dfile=./angular-maven-plugin/target/angular-maven-plugin-${pom.version}.jar -DgroupId=com.guillaumetalbot -DartifactId=angular-maven-plugin -Dversion=${pom.version} -Dpackaging=jar -DlocalRepositoryPath=/var/www/html/mavenrepository"
+				}
 			}
 		}
 	}
