@@ -23,8 +23,9 @@ public class MethodesInutiliseesAnalyseur implements Analyseur {
 	// Méthodes propres à Angular à ignorer
 	private static final List<String> METHODES_ANGULAR_A_IGNORER = Arrays.asList("constructor", "ngOnInit", "ngAfterViewInit", "ngOnChanges");
 
-	// Pattern de détection des méthodes
-	public static final Pattern PATTERN_METHODE_DANS_HTML = Pattern.compile("[\\(\\[][a-z]*[\\)\\]]=\"([a-zA-Z0-9]*)\\(");
+	// Pattern de détection des méthodes. Le patern détecte les [event]="methodeAZ9( et les (action)="methodeAZ9( et les
+	// (action)="trucAlaCon;methodeAZ9(
+	public static final Pattern PATTERN_METHODE_DANS_HTML = Pattern.compile("[\\(\\[][a-zA-Z]*[\\)\\]]=\"([^\"]*;)?([a-zA-Z0-9]+)\\(");
 	public static final String PATTERN_METHODE_DANS_HTML_REMPLACEMENT = "\"%s\\(";
 
 	// Pattern de détection des méthodes
@@ -109,12 +110,12 @@ public class MethodesInutiliseesAnalyseur implements Analyseur {
 			// Si on en a un
 			if (matcher.find()) {
 
-				// Ajout à la liste
-				methodesAppellees.add(matcher.group(1));
+				// Ajout à la liste de la méthode appellée (dernier groupe dans la regex)
+				methodesAppellees.add(matcher.group(matcher.groupCount()));
 
 				// On supprime l'element trouvé pour une nouvelle tentative
 				if (patternRemplacement != null) {
-					ligne = ligne.replaceFirst(String.format(patternRemplacement, matcher.group(1)), "");
+					ligne = ligne.replaceFirst(String.format(patternRemplacement, matcher.group(matcher.groupCount())), "");
 				}
 			}
 
@@ -123,7 +124,7 @@ public class MethodesInutiliseesAnalyseur implements Analyseur {
 
 	/**
 	 * Détection si la ligne courante demande à ignorer la ligne suivante
-	 * 
+	 *
 	 * @param ligne
 	 * @return
 	 */

@@ -91,4 +91,8 @@ export class PageUtilisateurComponent implements OnInit {
   /** Méthode appelée par le composant parent par exemple (@@angular:analyse:ignorerLigneSuivante@@)*/
   methodeIgnoree() {
   }
+
+  selectionerElement(element: any) {
+
+  }
 }

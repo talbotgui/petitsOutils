@@ -52,6 +52,17 @@
 			<input matInput required minlength="6" type="password" #inputMdp="ngModel" [(ngModel)]="utilisateurSelectionne.mdp"
 			 name="mdp" l10n-placeholder placeholder="utilisateur_placeholder_mdp">
 		</mat-form-field>
+		
+		<!-- Test particulier pour l'auto-completion -->
+		<mat-form-field>
+            <input #input matInput placeholder="Rechercher un objet" type="search" [matAutocomplete]="auto" [formControl]="serviceCtrl" required>
+            <mat-error>Merci de renseigner un nom element</mat-error>
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let element of elements | async" [value]="element.nom" (onSelectionChange)="selectionerElement(element)">
+                {{element.nom}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
 		<!-- Boutons -->
 		<button matButton type="submit" class="btn btn-outline-secondary" (click)="annulerCreationUtilisateur()"

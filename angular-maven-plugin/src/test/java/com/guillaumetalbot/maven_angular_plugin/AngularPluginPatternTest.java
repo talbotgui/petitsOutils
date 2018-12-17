@@ -25,6 +25,10 @@ public class AngularPluginPatternTest {
 		tests.put("<mat-checkbox [checked]=\"estAutorise(ro, ressource)\" (change)=\"changerAutorisation(ro, ressource)\"></mat-checkbox>",
 				Arrays.asList("estAutorise", "changerAutorisation"));
 		tests.put("<em (click)=\"creer(); leForm.reset(roleSelectionne);\"", Arrays.asList("creer"));
+		tests.put(
+				"<mat-option *ngFor=\"let element of elements | async\" [value]=\"element.nom\" (onSelectionChange)=\"selectionerElement(element)\">",
+				Arrays.asList("selectionerElement"));
+		tests.put("<button mat-icon-button (click)=\"flag= true;ajouterElement(element)\">", Arrays.asList("ajouterElement"));
 		// Arrange : methode à appeler
 		final MethodesInutiliseesAnalyseur analyseur = new MethodesInutiliseesAnalyseur();
 		final Method method = analyseur.getClass().getDeclaredMethod("extraireMethodesDuneLigne", String.class, Pattern.class, String.class,
@@ -40,7 +44,7 @@ public class AngularPluginPatternTest {
 			method.invoke(analyseur, ligne, MethodesInutiliseesAnalyseur.PATTERN_METHODE_DANS_HTML,
 					MethodesInutiliseesAnalyseur.PATTERN_METHODE_DANS_HTML_REMPLACEMENT, listeResultats);
 
-			Assertions.assertThat(methodes).containsExactlyElementsOf(listeResultats);
+			Assertions.assertThat(listeResultats).containsExactlyElementsOf(methodes);
 		}
 	}
 }
