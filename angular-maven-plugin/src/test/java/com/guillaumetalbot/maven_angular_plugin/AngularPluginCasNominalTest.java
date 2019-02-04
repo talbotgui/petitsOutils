@@ -25,9 +25,11 @@ public class AngularPluginCasNominalTest {
 		//
 		final String suffixNomFichierComposantAngular = ".component.ts";
 		final String cheminProjetAngular = new File("src/test/resources").getAbsolutePath();
-		String cheminFichierAvecUneErreur = cheminProjetAngular + "/src/administration/page-utilisateur/page-utilisateur.component.ts";
+		String cheminFichierAvecUneErreur1 = cheminProjetAngular + "/src/administration/page-client/page-client.component.ts";
+		String cheminFichierAvecUneErreur2 = cheminProjetAngular + "/src/administration/page-utilisateur/page-utilisateur.component.ts";
 		if (File.separator.equals("\\")) {
-			cheminFichierAvecUneErreur = cheminFichierAvecUneErreur.replaceAll("/", "\\\\");
+			cheminFichierAvecUneErreur1 = cheminFichierAvecUneErreur1.replaceAll("/", "\\\\");
+			cheminFichierAvecUneErreur2 = cheminFichierAvecUneErreur2.replaceAll("/", "\\\\");
 		}
 
 		final ArgumentCaptor<String> argument1 = ArgumentCaptor.forClass(String.class);
@@ -42,8 +44,11 @@ public class AngularPluginCasNominalTest {
 
 		//
 		Assert.assertFalse(resultat);
-		Mockito.verify(monLogger).error(argument1.capture(), argument2.capture(), argument3.capture());
-		Assert.assertEquals(cheminFichierAvecUneErreur, argument2.getValue());
-		Assert.assertEquals(1, ((Collection<String>) argument3.getValue()).size());
+		Mockito.verify(monLogger, Mockito.times(2)).error(argument1.capture(), argument2.capture(), argument3.capture());
+		Assert.assertEquals(cheminFichierAvecUneErreur1, argument2.getAllValues().get(0));
+		Assert.assertEquals(1, ((Collection<String>) argument3.getAllValues().get(0)).size());
+		Assert.assertEquals(cheminFichierAvecUneErreur2, argument2.getAllValues().get(1));
+		Assert.assertEquals(1, ((Collection<String>) argument3.getAllValues().get(1)).size());
+
 	}
 }

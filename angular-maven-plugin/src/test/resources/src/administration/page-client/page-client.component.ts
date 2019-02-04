@@ -107,4 +107,14 @@ export class PageClientComponent implements OnInit {
   selectionner(client: model.ClientDto) {
     this.clientSelectionne = client;
   }
+  
+  /** Methode appellée depuis le code HTML et non depuis un event */
+  donnerUnNombre():number {
+  	return 4;
+  }
+  
+  /** Methode appellée depuis le code HTML et non depuis un event */
+  donnerUnNombreMaisNestPasAppellee():number {
+  	return 4;
+  }
 }

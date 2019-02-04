@@ -26,7 +26,9 @@ public class MethodesInutiliseesAnalyseur implements Analyseur {
 	// Pattern de détection des méthodes. Le patern détecte les [event]="methodeAZ9( et les (action)="methodeAZ9( et les
 	// (action)="trucAlaCon;methodeAZ9(
 	public static final Pattern PATTERN_METHODE_DANS_HTML = Pattern.compile("[\\(\\[][a-zA-Z]*[\\)\\]]=\"([^\"]*;)?([a-zA-Z0-9]+)\\(");
+	public static final Pattern PATTERN_METHODE_DANS_HTML_2 = Pattern.compile("\\{\\{([^\\\\}]*;)?([a-zA-Z0-9]+)\\([^\\}]*\\}\\}");
 	public static final String PATTERN_METHODE_DANS_HTML_REMPLACEMENT = "\"%s\\(";
+	public static final String PATTERN_METHODE_DANS_HTML_REMPLACEMENT_2 = "[;\\{]?%s\\(";
 
 	// Pattern de détection des méthodes
 	private static final Pattern PATTERN_METHODE_DANS_TS = Pattern.compile("^  ([a-zA-Z0-9]*)\\(");
@@ -52,6 +54,7 @@ public class MethodesInutiliseesAnalyseur implements Analyseur {
 		// Recherche des appels de méthode dans la page HTML
 		final List<String> appelsDepuisPageHtml = this.extraireMethodes(fichierHtml, PATTERN_METHODE_DANS_HTML,
 				PATTERN_METHODE_DANS_HTML_REMPLACEMENT);
+		appelsDepuisPageHtml.addAll(this.extraireMethodes(fichierHtml, PATTERN_METHODE_DANS_HTML_2, PATTERN_METHODE_DANS_HTML_REMPLACEMENT_2));
 
 		// Soustraction
 		methodesDansLeTs.removeAll(appelsDepuisPageHtml);

@@ -39,6 +39,8 @@
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" [length]="dataSource.page.totalElements" [pageSize]="dataSource.page.size"
  showFirstLastButtons></mat-paginator>
 
+{{donnerUnNombre()}}
+
 <!-- Création ou édition du client -->
 <form novalidate #leForm="ngForm">
 	<div *ngIf="clientSelectionne">
