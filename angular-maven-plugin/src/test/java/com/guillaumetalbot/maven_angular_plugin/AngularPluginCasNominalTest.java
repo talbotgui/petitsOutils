@@ -45,9 +45,10 @@ public class AngularPluginCasNominalTest {
 		//
 		Assert.assertFalse(resultat);
 		Mockito.verify(monLogger, Mockito.times(2)).error(argument1.capture(), argument2.capture(), argument3.capture());
-		Assert.assertEquals(cheminFichierAvecUneErreur1, argument2.getAllValues().get(0));
+
+		Assert.assertTrue(argument2.getAllValues().contains(cheminFichierAvecUneErreur1));
+		Assert.assertTrue(argument2.getAllValues().contains(cheminFichierAvecUneErreur2));
 		Assert.assertEquals(1, ((Collection<String>) argument3.getAllValues().get(0)).size());
-		Assert.assertEquals(cheminFichierAvecUneErreur2, argument2.getAllValues().get(1));
 		Assert.assertEquals(1, ((Collection<String>) argument3.getAllValues().get(1)).size());
 
 	}
